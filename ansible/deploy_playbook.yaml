@@ -3,10 +3,14 @@
   hosts: 127.0.0.1
   connection: local
   tasks:
-  
+  - name: Disable toleration  
+    become: yes
+    command: kubectl taint nodes --all node-role.kubernetes.io/master-
+    ignore_errors: yes
+
   - name: Helm deploy
     become: yes
-    command: helm install default /home/brett/git/nuctestlab/prometheus
+    command: helm reinstall default /home/brett/git/nuctestlab/prometheus
 
   - name: Manual hacks
     become: yes
