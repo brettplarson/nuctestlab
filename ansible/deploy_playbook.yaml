@@ -4,15 +4,12 @@
   connection: local
   tasks:
   - name: Disable toleration  
-    become: yes
     command: kubectl taint nodes --all node-role.kubernetes.io/master-
     ignore_errors: yes
 
   - name: Helm deploy
-    become: yes
     command: helm install default /home/brett/git/nuctestlab/prometheus
 
   - name: Manual hacks
-    become: yes
-    command: kubectl apply -f /home/brett/git/nuctestlab/prometheus/manual_hacks
+    command: kubectl apply -f /home/brett/git/nuctestlab/prometheus/manual_hacks/
 
