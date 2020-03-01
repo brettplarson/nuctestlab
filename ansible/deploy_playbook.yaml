@@ -10,7 +10,7 @@
 
   - name: Helm deploy
     become: yes
-    command: helm reinstall default /home/brett/git/nuctestlab/prometheus
+    command: helm install default /home/brett/git/nuctestlab/prometheus
 
   - name: Manual hacks
     become: yes
