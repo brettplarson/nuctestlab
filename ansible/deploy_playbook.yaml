@@ -1,0 +1,14 @@
+---
+- name: Helm Deploy
+  hosts: 127.0.0.1
+  connection: local
+  tasks:
+  
+  - name: Helm deploy
+    become: yes
+    command: helm install default /home/brett/git/nuctestlab/prometheus
+
+  - name: Manual hacks
+    become: yes
+    command: kubectl apply -f /home/brett/git/nuctestlab/prometheus/manual_hacks
+
