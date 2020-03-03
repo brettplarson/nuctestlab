@@ -58,7 +58,7 @@
 
   - name: Run kubeadm
     become: yes
-    shell: "kubeadm init --pod-network-cidr=10.244.0.0/16"
+    shell: "kubeadm init --pod-network-cidr=10.1.0.0/16"
   
   - name: Setup kubeconfig
     become: yes
@@ -72,6 +72,6 @@
     args:
       executable: bash
 
-  - name: Install flannel YAML
+  - name: Install Calico
     become: yes
-    shell: "kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/2140ac876ef134e0ed5af15c65e414cf26827915/Documentation/kube-flannel.yml"
+    shell: "kubectl apply -f /home/brett/git/nuctestlab/calico/calico.yaml"
