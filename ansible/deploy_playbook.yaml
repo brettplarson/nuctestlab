@@ -7,7 +7,10 @@
     command: kubectl taint nodes --all node-role.kubernetes.io/master-
     ignore_errors: yes
 
-  - name: Helm deploy
+  - name: Helm deploy Ingress
+    command: helm install ingress /home/brett/git/nuctestlab/nginx-ingress
+  
+  - name: Helm deploy Prometheus
     command: helm install default /home/brett/git/nuctestlab/prometheus
 
   - name: Manual hacks
