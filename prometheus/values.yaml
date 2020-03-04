@@ -107,7 +107,7 @@ alertmanager:
     ## alertmanager Ingress hostnames with optional path
     ## Must be provided if Ingress is enabled
     ##
-    hosts: []
+    hosts: [alertmanager.nuckube.com]
     #   - alertmanager.domain.com
     #   - domain.com/alertmanager
 
@@ -763,7 +763,7 @@ server:
     ## Prometheus server Ingress hostnames with optional path
     ## Must be provided if Ingress is enabled
     ##
-    hosts: []
+    hosts: [prometheus.nuckube.com]
     #   - prometheus.domain.com
     #   - domain.com/prometheus
 
