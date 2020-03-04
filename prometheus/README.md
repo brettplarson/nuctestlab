@@ -179,14 +179,24 @@ Parameter | Description | Default
 `alertmanager.service.sessionAffinity` | Session Affinity for alertmanager service, can be `None` or `ClientIP` | `None`
 `alertmanager.service.type` | type of alertmanager service to create | `ClusterIP`
 `alertmanagerFiles.alertmanager.yml` | Prometheus alertmanager configuration | example configuration
-`configmapReload.name` | configmap-reload container name | `configmap-reload`
-`configmapReload.image.repository` | configmap-reload container image repository | `jimmidyson/configmap-reload`
-`configmapReload.image.tag` | configmap-reload container image tag | `v0.3.0`
-`configmapReload.image.pullPolicy` | configmap-reload container image pull policy | `IfNotPresent`
-`configmapReload.extraArgs` | Additional configmap-reload container arguments | `{}`
-`configmapReload.extraVolumeDirs` | Additional configmap-reload volume directories | `{}`
-`configmapReload.extraConfigmapMounts` | Additional configmap-reload configMap mounts | `[]`
-`configmapReload.resources` | configmap-reload pod resource requests & limits | `{}`
+`configmapReload.prometheus.enabled` | If false, the configmap-reload container for Prometheus will not be deployed | `true`
+`configmapReload.prometheus.name` | configmap-reload container name | `configmap-reload`
+`configmapReload.prometheus.image.repository` | configmap-reload container image repository | `jimmidyson/configmap-reload`
+`configmapReload.prometheus.image.tag` | configmap-reload container image tag | `v0.3.0`
+`configmapReload.prometheus.image.pullPolicy` | configmap-reload container image pull policy | `IfNotPresent`
+`configmapReload.prometheus.extraArgs` | Additional configmap-reload container arguments | `{}`
+`configmapReload.prometheus.extraVolumeDirs` | Additional configmap-reload volume directories | `{}`
+`configmapReload.prometheus.extraConfigmapMounts` | Additional configmap-reload configMap mounts | `[]`
+`configmapReload.prometheus.resources` | configmap-reload pod resource requests & limits | `{}`
+`configmapReload.alertmanager.enabled` | If false, the configmap-reload container for AlertManager will not be deployed | `true`
+`configmapReload.alertmanager.name` | configmap-reload container name | `configmap-reload`
+`configmapReload.alertmanager.image.repository` | configmap-reload container image repository | `jimmidyson/configmap-reload`
+`configmapReload.alertmanager.image.tag` | configmap-reload container image tag | `v0.3.0`
+`configmapReload.alertmanager.image.pullPolicy` | configmap-reload container image pull policy | `IfNotPresent`
+`configmapReload.alertmanager.extraArgs` | Additional configmap-reload container arguments | `{}`
+`configmapReload.alertmanager.extraVolumeDirs` | Additional configmap-reload volume directories | `{}`
+`configmapReload.alertmanager.extraConfigmapMounts` | Additional configmap-reload configMap mounts | `[]`
+`configmapReload.alertmanager.resources` | configmap-reload pod resource requests & limits | `{}`
 `initChownData.enabled`  | If false, don't reset data ownership at startup | true
 `initChownData.name` | init-chown-data container name | `init-chown-data`
 `initChownData.image.repository` | init-chown-data container image repository | `busybox`
@@ -196,7 +206,7 @@ Parameter | Description | Default
 `kubeStateMetrics.enabled` | If true, create kube-state-metrics | `true`
 `kubeStateMetrics.name` | kube-state-metrics container name | `kube-state-metrics`
 `kubeStateMetrics.image.repository` | kube-state-metrics container image repository| `quay.io/coreos/kube-state-metrics`
-`kubeStateMetrics.image.tag` | kube-state-metrics container image tag | `v1.9.0`
+`kubeStateMetrics.image.tag` | kube-state-metrics container image tag | `v1.9.5`
 `kubeStateMetrics.image.pullPolicy` | kube-state-metrics container image pull policy | `IfNotPresent`
 `kubeStateMetrics.args` | kube-state-metrics container arguments | `{}`
 `kubeStateMetrics.nodeSelector` | node labels for kube-state-metrics pod assignment | `{}`
@@ -290,7 +300,7 @@ Parameter | Description | Default
 `server.enabled` | If false, Prometheus server will not be created | `true`
 `server.name` | Prometheus server container name | `server`
 `server.image.repository` | Prometheus server container image repository | `prom/prometheus`
-`server.image.tag` | Prometheus server container image tag | `v2.15.2`
+`server.image.tag` | Prometheus server container image tag | `v2.16.0`
 `server.image.pullPolicy` | Prometheus server container image pull policy | `IfNotPresent`
 `server.configPath` |  Path to a prometheus server config file on the container FS  | `/etc/config/prometheus.yml`
 `server.global.scrape_interval` | How frequently to scrape targets by default | `1m`
@@ -358,6 +368,9 @@ Parameter | Description | Default
 `server.service.servicePort` | Prometheus server service port | `80`
 `server.service.sessionAffinity` | Session Affinity for server service, can be `None` or `ClientIP` | `None`
 `server.service.type` | type of Prometheus server service to create | `ClusterIP`
+`server.service.gRPC.enabled` | If true, open a second port on the service for gRPC | `false`
+`server.service.gRPC.servicePort` | Prometheus service gRPC port, (ignored if `server.service.gRPC.enabled` is not `true`) | `10901`
+`server.service.gRPC.nodePort` | Port to be used as gRPC nodePort in the prometheus service | `0`
 `server.service.statefulsetReplica.enabled` | If true, send the traffic from the service to only one replica of the replicaset | `false`
 `server.service.statefulsetReplica.replica` | Which replica to send the traffice to | `0`
 `server.sidecarContainers` | array of snippets with your sidecar containers for prometheus server | `""`
