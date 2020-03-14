@@ -3,10 +3,7 @@
   hosts: 127.0.0.1
   connection: local
   tasks:
-  - name: Disable toleration  
-    command: kubectl taint nodes --all node-role.kubernetes.io/master-
-    ignore_errors: yes
-
+  
   - name: Helm deploy Ingress
     command: helm install ingress /home/brett/git/nuctestlab/nginx-ingress
   

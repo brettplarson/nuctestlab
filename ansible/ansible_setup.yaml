@@ -1,0 +1,10 @@
+---
+- hosts: all
+  tasks:
+    - name: "Add brett to the sudoers file to access ansible without password."
+      lineinfile:
+        path: /etc/sudoers
+        state: present
+        regexp: '^%brett'
+        line: 'brett ALL=(ALL) NOPASSWD:ALL'
+        validate: 'visudo -cf %s'
