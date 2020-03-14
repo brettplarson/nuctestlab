@@ -13,6 +13,7 @@ Development and Ansible master is done via a Windows desktop using VSCode WSL in
 Currently nodeports are used to access the cluster.
 
 ## Setup
+For the Ansible config to be used with WSL we need to run `export ANSIBLE_CONFIG=./ansible.cfg` more info here https://docs.ansible.com/ansible/latest/reference_appendices/config.html#avoiding-security-risks-with-ansible-cfg-in-the-current-directory and here https://www.asyncdrink.com/blog/ansible-on-windows
 
 To setup the cluster, clone the git repository and run the **setup_playbook.yaml**
 
