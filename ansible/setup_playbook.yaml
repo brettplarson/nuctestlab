@@ -5,3 +5,72 @@
   tasks:
   - name: Disable swap.
     shell: swapoff -a
+# Adapted from https://gist.github.com/rbq/886587980894e98b23d0eee2a1d84933#gistcomment-2629386
+  - name: Add Docker GPG key
+    apt_key: 
+      url: https://download.docker.com/linux/ubuntu/gpg
+      state: present
+
+  - name: Install basic list of packages
+    apt:
+      name: ['apt-transport-https','ca-certificates','curl','gnupg2','software-properties-common']
+      state: present
+      update_cache: yes
+
+  - name: Add Docker APT repository
+    apt_repository:
+      repo: deb [arch=amd64] https://download.docker.com/linux/{{ansible_distribution|lower}} {{ansible_distribution_release}} stable
+
+  - name: Install Docker packages
+    apt:
+      name: ['docker-ce','docker-ce-cli','containerd.io']
+      state: present
+
+# Set Cgroup driver to systemd per K8s reccomendation:
+# to check you can use - docker info | grep -i 'cgroup driver'
+  - name: Verify Docker is setup to use the Systemd Cgroup driver
+    shell:
+      cmd: sudo docker info -f {{ '{{.CgroupDriver}}' }}
+    register: result
+   
+  - name: Check Docker daemon file.
+    file:
+      path: "/etc/docker/daemon.json"
+      state: touch
+    when: result.stdout != "systemd"
+
+  - name: Copy the Docker daemon file.
+    copy:
+      src: artifacts/daemon.json
+      dest: /etc/docker/daemon.json
+    when: result.stdout != "systemd"
+
+  - name: Create a directory for the systemd setup.
+    file:
+      path: "/etc/systemd/system/docker.service.d"
+      state: directory
+    when: result.stdout != "systemd"
+
+  - name: Restart services.
+    systemd:
+      state: restarted
+      daemon_reload: yes
+      name: docker
+    when: result.stdout != "systemd"
+
+# Now Kubernetes
+  - name: Add Kubernetes GPG key
+    apt_key: 
+      url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+      state: present
+
+# Have to hard code the xenial due to the fact that they don't have a bionic repo yet.
+#https://stackoverflow.com/questions/53068337/unable-to-add-kubernetes-bionic-main-ubuntu-18-04-to-apt-repository?answertab=active#tab-top
+  - name: Add Kubernetes APT repository
+    apt_repository:
+      repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
+
+  - name: Install Kubernetes packages
+    apt:
+      name: ['kubelet','kubeadm','kubectl']
+      state: present
