@@ -1,5 +1,5 @@
 ---
-- name: Kubernetes Setup
+- name: Kubernetes Pre-req Setup
   hosts: all
   become: yes
   tasks:
@@ -74,3 +74,48 @@
     apt:
       name: ['kubelet','kubeadm','kubectl']
       state: present
+#TODO - DNS for the control plane endpoint.
+- name: Kubernetes master setup
+  hosts: master
+  become: yes
+  tasks:
+  - name: Check kubernetes is setup on master
+    service:
+      name: kubelet
+      state: started
+    register: masterkubeletstatus
+
+  - name: debug
+    debug: 
+      var: masterkubeletstatus.status.ActiveState
+
+  - name: Run kubeadm on master
+    shell: 
+      cmd: "kubeadm init --pod-network-cidr=10.1.0.0/16 --control-plane-endpoint 192.168.1.20"
+    when: masterkubeletstatus.status.ActiveState != "active"
+
+  - name: register kudeadm join command
+    shell: kubeadm token create --print-join-command --skip-log-headers
+    register: kubeadmjoincommand
+  
+  - name: Fetch kubeconfig from master
+    fetch:
+      src: /etc/kubernetes/admin.conf
+      dest: ~/.kube/config
+      flat: yes
+
+- name: Kubernetes workers setup
+  hosts: workers
+  become: yes
+  tasks:
+  - name: Check kubernetes is setup on workers
+    service:
+      name: kubelet
+      state: started
+    register: workerkubeletstatus
+
+  - name: Run kubeadm on workers
+    shell: "{{ hostvars['192.168.1.20']['kubeadmjoincommand']['stdout'] }}"
+    when: workerkubeletstatus.status.ActiveState != "active"
+
+  #- name: Copy calico
