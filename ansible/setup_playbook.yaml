@@ -1,6 +1,6 @@
 ---
 - name: Kubernetes Pre-req Setup
-  hosts: all
+  hosts: ['master','workers']
   become: yes
   tasks:
   - name: Disable swap.
@@ -10,6 +10,7 @@
     apt_key: 
       url: https://download.docker.com/linux/ubuntu/gpg
       state: present
+    retries: 5
 
   - name: Install basic list of packages
     apt:
@@ -63,6 +64,7 @@
     apt_key: 
       url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
       state: present
+    retries: 5
 
 # Have to hard code the xenial due to the fact that they don't have a bionic repo yet.
 #https://stackoverflow.com/questions/53068337/unable-to-add-kubernetes-bionic-main-ubuntu-18-04-to-apt-repository?answertab=active#tab-top
@@ -104,6 +106,52 @@
       dest: ~/.kube/config
       flat: yes
 
+- name: Local ansible controller tasks
+  hosts: local
+  become: yes
+  tasks:
+  - name: Add Kubernetes GPG key
+    apt_key: 
+      url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+      state: present
+
+  - name: Add Kubernetes APT repository
+    apt_repository:
+      repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
+   
+  - name: Install kubectl on ansible controller
+    apt:
+      name: kubectl
+      state: present
+
+  - name: Install python pip on ansible controller
+    apt:
+      name: python-pip
+      state: present
+
+  - name: Install openshift pip package
+    pip:
+      name: openshift
+
+  - name: Apply calico
+    become: no
+    k8s: 
+      state: present
+      src: "../calico/calico.yaml"
+
+  - name: Wait for calico pods to be ready
+    become: no
+    k8s_info: 
+      kind: Pod
+      namespace: kube-system
+      label_selectors:
+        - k8s-app = calico-node
+    register: pod_status
+    until: pod_status.resources[0].status.phase == 'Running'
+    retries: 10
+    delay: 10
+    ignore_errors: yes
+  
 - name: Kubernetes workers setup
   hosts: workers
   become: yes
@@ -117,5 +165,3 @@
   - name: Run kubeadm on workers
     shell: "{{ hostvars['192.168.1.20']['kubeadmjoincommand']['stdout'] }}"
     when: workerkubeletstatus.status.ActiveState != "active"
-
-  #- name: Copy calico

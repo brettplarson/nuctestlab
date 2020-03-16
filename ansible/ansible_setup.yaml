@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: ['master','workers']
   tasks:
     - name: "Add brett to the sudoers file to access ansible without password."
       lineinfile:
@@ -7,4 +7,13 @@
         state: present
         regexp: '^%brett'
         line: 'brett ALL=(ALL) NOPASSWD:ALL'
+        validate: 'visudo -cf %s'
+- hosts: local
+  tasks:
+    - name: "Add blarson to the sudoers file to access ansible without password."
+      lineinfile:
+        path: /etc/sudoers
+        state: present
+        regexp: '^%blarson'
+        line: 'blarson ALL=(ALL) NOPASSWD:ALL'
         validate: 'visudo -cf %s'

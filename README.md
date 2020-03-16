@@ -7,7 +7,7 @@ In the cluster there are 3 total Intel NUC machines.
 Both have had Ubuntu 18.04 server setup with the username *brett* with no extra setup (besides the SSH keys cloned from Launchpad :)).
 One NUC is a master node and two NUCs are setup as "workers".
 Gitlab is used as the git repository. Possibly it will be mirrored to Github.
-Development and Ansible master is done via a Windows desktop using VSCode WSL integration.
+Development and the Ansible controller is done via a Windows desktop using VSCode WSL integration.
 Currently nodeports are used to access the cluster.
 
 ## Setup
@@ -17,6 +17,9 @@ More info [here](https://docs.ansible.com/ansible/latest/reference_appendices/co
 
 Secondly we need to first run the playbook to setup Ansible to allow sudo without passwords for the *brett* user for all of the hosts.
 `ansible-playbook ansible_setup.yaml -K`
+
+Finally on the Ansible controller we want to install the [Ansible Kubernetes module.](https://docs.ansible.com/ansible/latest/scenario_guides/guide_kubernetes.html)
+`ansible-galaxy install ansible.kubernetes-modules`
 
 ### Run playbooks
 To setup the cluster run the **setup_playbook.yaml**
