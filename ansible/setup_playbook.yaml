@@ -165,3 +165,81 @@
   - name: Run kubeadm on workers
     shell: "{{ hostvars['192.168.1.20']['kubeadmjoincommand']['stdout'] }}"
     when: workerkubeletstatus.status.ActiveState != "active"
+
+- name: Setup glusterfs and xfs on master
+  hosts: master
+  tasks:
+  - name: Gluster apt tasks
+    apt: 
+      name: ['glusterfs-server','xfsprogs']
+      state: present
+
+  - name: Gluster service enable
+    service:
+      name: glusterd
+      state: started
+      enabled: yes
+
+  - name: Check fake disk exists
+    stat:
+      path: /srv/fakedisk
+      get_checksum: False
+      get_md5: False
+    register: fake_disk
+
+  - name: Pre-Gluster file operations
+    block:
+    - name: Make fake disk to use from gluster
+      shell:
+        cmd: truncate -s 100GB /srv/fakedisk
+    when: fake_disk.stat.exists == False
+
+  - name: setup loopback device
+    shell:
+      cmd: losetup /dev/loop9 /srv/fakedisk
+    ignore_errors: yes
+
+  - name: lvm pv and volume group setup
+    lvg:
+      vg: lvg-gluster-k8s
+      pvs: /dev/loop9
+      state: present
+
+  - name: lvm logical volume creation
+    lvol:
+      vg: lvg-gluster-k8s
+      lv: lv-gluster-k8s
+      size: 93G
+      state: present
+
+  - name: Format fake disk to use from gluster
+    filesystem: 
+      fstype: xfs
+      dev: /dev/lvg-gluster-k8s/lv-gluster-k8s
+
+- name: Gluster setup
+  hosts: master
+  tasks:
+  - name: Create brick file
+    file: 
+      path: /data/brick1
+      state: directory
+
+  - name: Edit fstab file
+    lineinfile: 
+      path: /etc/fstab
+      regexp: 'brick1'
+      line:  "/dev/lvg-gluster-k8s/lv-gluster-k8s /data/brick1 xfs loop 0 0"
+
+  - name: Mount all
+    command: mount -a
+
+  - name: Create gluster volume
+    gluster_volume:
+      state: present
+      name: gluster_volume
+      bricks: /data/brick1/brick
+      cluster:
+        - 192.168.1.20
+      start_on_create: yes
+    run_once: true

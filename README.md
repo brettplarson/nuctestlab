@@ -42,7 +42,8 @@ To deploy the resources run the **deploy_playbook.yaml**
 
 
 ## Todo
-- [ ] Finish provising worker images with Ansible. (And to Ansible best practices.)
+- [x] Finish provising worker images with Ansible. (And to Ansible best practices.)
+- [ ] Setup glustefs on master (standalone)
 - [ ] Swap the local disks with Gluster
 - [ ] Setup with a load balancer resource on baremetal. (METALLB looks promising)
 - [ ] Setup KubeOps view

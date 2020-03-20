@@ -1,15 +1,20 @@
 ---
 - name: Helm Deploy
-  hosts: 127.0.0.1
-  connection: local
+  hosts: local
   tasks:
-  
+  - name: Install Helm v3.1.2.
+    unarchive:
+      src: https://get.helm.sh/helm-v3.1.2-linux-amd64.tar.gz
+      dest: /tmp
+      creates: /usr/local/bin/helm
+      remote_src: yes
+    
   - name: Helm deploy Ingress
-    command: helm install ingress /home/brett/git/nuctestlab/nginx-ingress
+    
   
   - name: Helm deploy Prometheus
-    command: helm install default /home/brett/git/nuctestlab/prometheus
+    
 
   - name: Manual hacks
-    command: kubectl apply -f /home/brett/git/nuctestlab/prometheus/manual_hacks/
+   
 
