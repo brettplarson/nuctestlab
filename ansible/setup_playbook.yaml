@@ -76,6 +76,11 @@
     apt:
       name: ['kubelet','kubeadm','kubectl']
       state: present
+
+  - name: Install Gluster packages
+    apt:
+      name: ['glusterfs-client']
+      state: present
 #TODO - DNS for the control plane endpoint.
 - name: Kubernetes master setup
   hosts: master

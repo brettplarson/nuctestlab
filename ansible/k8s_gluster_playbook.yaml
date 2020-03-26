@@ -1,0 +1,16 @@
+- name: Local ansible controller tasks for deploying gluster k8s resources
+  hosts: local
+  become: yes
+  tasks:
+  - name: Apply gluster endpoint
+    become: no
+    k8s: 
+      state: present
+      src: "../gluster/gluster-endpoint.yaml"
+      namespace: kube-system
+  - name: Apply gluster service
+    become: no
+    k8s: 
+      state: present
+      src: "../gluster/gluster-service.yaml"
+      namespace: kube-system
