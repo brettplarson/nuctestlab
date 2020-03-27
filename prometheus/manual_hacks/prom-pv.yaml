@@ -9,5 +9,5 @@ spec:
     - ReadWriteMany
   glusterfs:
     endpoints: glusterfs-cluster 
-    path: gluster_volume/kube_vol/promethes-server
+    path: gluster_volume/kube_vol/prometheus-server
   persistentVolumeReclaimPolicy: Retain
