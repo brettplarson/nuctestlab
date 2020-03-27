@@ -187,9 +187,9 @@ extraContainers: |
 persistence:
   type: pvc
   enabled: true
-  storageClassName: manual
+  storageClassName: "-"
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   size: 10Gi
   # annotations: {}
   finalizers:

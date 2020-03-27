@@ -171,7 +171,7 @@ alertmanager:
     ## Ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
     ##
     accessModes:
-      - ReadWriteOnce
+      - ReadWriteMany
 
     ## alertmanager data Persistent Volume Claim annotations
     ##
@@ -197,7 +197,7 @@ alertmanager:
     ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
     ##   GKE, AWS & OpenStack)
     ##
-    storageClass: "manual"
+    storageClass: "-"
 
     ## alertmanager data Persistent Volume Binding Mode
     ## If defined, volumeBindingMode: <volumeBindingMode>
@@ -827,7 +827,7 @@ server:
     ## Ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
     ##
     accessModes:
-      - ReadWriteOnce
+      - ReadWriteMany
 
     ## Prometheus server data Persistent Volume annotations
     ##
@@ -844,7 +844,7 @@ server:
 
     ## Prometheus server data Persistent Volume size
     ##
-    size: 8Gi
+    size: 30Gi
 
     ## Prometheus server data Persistent Volume Storage Class
     ## If defined, storageClassName: <storageClass>
@@ -853,7 +853,7 @@ server:
     ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
     ##   GKE, AWS & OpenStack)
     ##
-    storageClass: "manual"
+    storageClass: "-"
 
     ## Prometheus server data Persistent Volume Binding Mode
     ## If defined, volumeBindingMode: <volumeBindingMode>
@@ -1147,7 +1147,7 @@ pushgateway:
     ## Ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
     ##
     accessModes:
-      - ReadWriteOnce
+      - ReadWriteMany
 
     ## pushgateway data Persistent Volume Claim annotations
     ##

@@ -5,10 +5,11 @@ metadata:
   labels:
     type: local
 spec:
-  storageClassName: manual
   capacity:
     storage: 10Gi
   accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: "/mnt/data/grafana"
+    - ReadWriteMany
+  glusterfs:
+    endpoints: glusterfs-cluster 
+    path: grafana
+  persistentVolumeReclaimPolicy: Retain
