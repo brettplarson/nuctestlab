@@ -1,0 +1,12 @@
+---
+  - name: Helm Deploy grafana
+    hosts: local
+    become: no
+    tasks:
+    - name: Deploy manual_hacks
+      shell:
+        cmd: kubectl apply -f ../grafana/manual_hacks
+    - name: Helm deploy grafana
+      shell:
+        cmd: helm install grafana ../grafana
+  

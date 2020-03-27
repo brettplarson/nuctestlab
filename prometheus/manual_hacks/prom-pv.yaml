@@ -9,5 +9,5 @@ spec:
     - ReadWriteMany
   glusterfs:
     endpoints: glusterfs-cluster 
-    path: promethes-alertmanager
+    path: gluster_volume/kube_vol/promethes-alertmanager
   persistentVolumeReclaimPolicy: Retain

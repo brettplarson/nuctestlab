@@ -1,0 +1,11 @@
+---
+  - name: Helm Deploy prometheus
+    hosts: local
+    become: no
+    tasks:
+    - name: Deploy manual_hacks
+      shell:
+        cmd: kubectl apply -f ../prometheus/manual_hacks
+    - name: Helm deploy prometheus
+      shell:
+        cmd: helm install prometheus ../prometheus

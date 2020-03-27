@@ -1,0 +1,8 @@
+---
+- name: Helm Deploy Ingress
+  hosts: local
+  become: no
+  tasks:
+  - name: Helm deploy Ingress
+    shell:
+      cmd: helm install ingress ../nginx-ingress

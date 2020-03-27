@@ -156,6 +156,21 @@
     retries: 10
     delay: 10
     ignore_errors: yes
+#https://github.com/ansible/ansible/issues/27081#issuecomment-493980378
+  - name: Install Helm v3.1.2.
+    unarchive:
+      src: https://get.helm.sh/helm-v3.1.2-linux-amd64.tar.gz
+      dest: /usr/local/bin
+      extra_opts:
+      - --strip=1
+      - --wildcards
+      - '*/helm'
+      remote_src: True
+
+  - name: Install pyhelm pip package
+    pip:
+      name: pyhelm
+      executable: /usr/bin/pip
   
 - name: Kubernetes workers setup
   hosts: workers

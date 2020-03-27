@@ -7,10 +7,10 @@
     k8s: 
       state: present
       src: "../gluster/gluster-endpoint.yaml"
-      namespace: kube-system
+      namespace: default
   - name: Apply gluster service
     become: no
     k8s: 
       state: present
       src: "../gluster/gluster-service.yaml"
-      namespace: kube-system
+      namespace: default
