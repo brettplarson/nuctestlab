@@ -1,0 +1,9 @@
+---
+  - name: Helm Deploy node-problem-detector
+    hosts: local
+    become: no
+    tasks:
+    - name: Helm deploy grafana
+      shell:
+        cmd: helm install npd ../node-problem-detector
+  

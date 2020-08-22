@@ -1,0 +1,18 @@
+---
+  - name: Deploy event logger
+    hosts: local
+    become: no
+    tasks:
+    - name: Setup folder for eventlogger
+      file: 
+        path: "../kube-event-logger"
+        state: directory
+# only ran once to get the git files pulled down.
+#    - name: Download event logger from git
+#      git: 
+#        repo: "https://github.com/MarcusNoble/kube-event-logger.git" 
+#        dest: "../kube-event-logger"
+    - name: Deploy event logger
+      k8s:
+        state: present
+        src: "../kube-event-logger/kubernetes.yaml"

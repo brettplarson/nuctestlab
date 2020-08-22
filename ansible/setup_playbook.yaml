@@ -218,7 +218,7 @@
     shell:
       cmd: losetup /dev/loop9 /srv/fakedisk
     ignore_errors: yes
-
+#TODO - sometimes this need to be rurun apparently??
   - name: lvm pv and volume group setup
     lvg:
       vg: lvg-gluster-k8s
