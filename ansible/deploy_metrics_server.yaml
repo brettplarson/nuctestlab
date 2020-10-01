@@ -1,0 +1,9 @@
+---
+  - name: Helm Deploy metrics-server
+    hosts: local
+    become: no
+    tasks:
+    - name: Helm deploy metrics-server
+      shell:
+        cmd: helm install metricsserver ../metrics-server
+  

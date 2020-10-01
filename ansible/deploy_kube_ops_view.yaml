@@ -1,0 +1,9 @@
+---
+  - name: Helm Deploy kube-ops-view
+    hosts: local
+    become: no
+    tasks:
+    - name: Helm deploy kube-ops-view
+      shell:
+        cmd: helm install kopsview ../kube-ops-view
+  
