@@ -1,3 +1,4 @@
+![NUC](generic_PC_intel-NUC.svg){ width=25% }
 # NUC Lab Setup Script
 This is a repository for devops automation to bootstrap a NUC via Ansible to create an Kubernetes cluster and install a Prometheus and Graphana instance.
 
