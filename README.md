@@ -43,13 +43,13 @@ To deploy the resources run the **deploy_playbook.yaml**
 
 ## Todo
 - [x] Finish provising worker images with Ansible. (And to Ansible best practices.)
-- [ ] Setup glustefs on master (standalone)
-- [ ] Swap the local disks with Gluster
+- [x] Setup glustefs on master (standalone)
+- [x] Swap the local disks with Gluster
 - [ ] Setup with a load balancer resource on baremetal. (METALLB looks promising)
-- [ ] Setup KubeOps view
-- [ ] Setup DNS for use on network (?)
+- [x] Setup KubeOps view
+- [x] Setup DNS for use on network (?)
 - [ ] Setup IPAM and network diagram (Netbox would be a fun option.)
 - [ ] Explore health monitoring options such as KuberHealthy
 - [ ] Explore gitlab deployment options
-- [ ] Setup Postgres for testing storing some metrics in a database.
+- [x] Setup Postgres for testing storing some metrics in a database.
 - [ ] Setup Thanos and multipe Prometheus pods.
