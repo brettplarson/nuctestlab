@@ -8,5 +8,5 @@
         cmd: kubectl apply -f ../grafana/manual_hacks
     - name: Helm deploy grafana
       shell:
-        cmd: helm install grafana ../grafana
+        cmd: helm upgrade --install grafana ../grafana
   

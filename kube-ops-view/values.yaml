@@ -9,7 +9,7 @@ service:
   #   service.beta.kubernetes.io/aws-load-balancer-internal: "0.0.0.0/0"
   # labels:
   #   key: value
-  type: ClusterIP
+  type: LoadBalancer
   externalPort: 80
   internalPort: 8080
 resources:

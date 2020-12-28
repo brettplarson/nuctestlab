@@ -5,5 +5,5 @@
     tasks:
     - name: Helm deploy kube-ops-view
       shell:
-        cmd: helm install kopsview ../kube-ops-view
+        cmd: helm upgrade --install kopsview ../kube-ops-view
   

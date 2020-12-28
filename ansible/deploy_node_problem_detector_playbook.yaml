@@ -5,5 +5,5 @@
     tasks:
     - name: Helm deploy grafana
       shell:
-        cmd: helm install npd ../node-problem-detector
+        cmd: helm upgrade --install npd ../node-problem-detector
   

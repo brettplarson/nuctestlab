@@ -8,4 +8,4 @@
         cmd: kubectl apply -f ../prometheus/manual_hacks
     - name: Helm deploy prometheus
       shell:
-        cmd: helm install prometheus ../prometheus
+        cmd: helm upgrade --install prometheus ../prometheus

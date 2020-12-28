@@ -5,5 +5,5 @@
     tasks:
     - name: Helm deploy metrics-server
       shell:
-        cmd: helm install metricsserver ../metrics-server
+        cmd: helm upgrade --install metricsserver ../metrics-server
   
