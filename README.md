@@ -55,3 +55,9 @@ To deploy the resources run the **deploy_playbook.yaml**
 - [ ] Explore gitlab deployment options
 - [x] Setup Postgres for testing storing some metrics in a database.
 - [ ] Setup Thanos and multipe Prometheus pods.
+
+## Thanos
+- [ ] Finish GKE Terraform setup for a small test cluster
+- [ ] Setup Thanos in GKE
+- [ ] Add Thanos sidecar to NUC servers
+- [ ] Configure gRPC 

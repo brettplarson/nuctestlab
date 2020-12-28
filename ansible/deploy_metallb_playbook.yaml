@@ -1,0 +1,24 @@
+---
+  - name: Deploy MetalLB via kubectl
+    hosts: local
+    become: no
+    tasks:
+    - name: Deploy yaml - namespace
+      community.kubernetes.k8s:
+        state: present
+        src: 
+          ../metallb/namespace.yaml
+    - name: Deploy yaml - configmap 
+      community.kubernetes.k8s:
+        state: present
+        src: 
+          ../metallb/config.yaml
+    - name: Deploy yaml - metallb
+      community.kubernetes.k8s:
+        state: present
+        src: 
+          ../metallb/metallb.yaml
+    #TODO - Need to make this idempotent
+    - name: Create secret
+      shell:
+        cmd: kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"
