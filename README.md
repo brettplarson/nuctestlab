@@ -41,7 +41,9 @@ To deploy the resources run the **deploy_playbook.yaml**
 - Run locally downloaded Grafana Helm charts and deploy them
 - Run locally downloaded Ingress Helm charts and deploy them
 - Run manual hacks for each
+- Enjoy the beautiful pods running in kopsview!
 
+<img src="kubeops.png" width="124" height="124">
 
 ## Todo
 - [x] Finish provising worker images with Ansible. (And to Ansible best practices.)
